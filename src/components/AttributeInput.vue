@@ -69,7 +69,16 @@
         <span class="shortcut-tip">支持快捷键操作</span>
       </div>
     </div>
-
+<el-divider />
+<el-tabs
+    type="card"
+    class="demo-tabs"
+  >
+    <el-tab-pane label="组件" name="first">
+    组件
+    </el-tab-pane>
+    <el-tab-pane label="表单" name="second">表单</el-tab-pane>
+  </el-tabs>
   </el-card>
 </template>
 
