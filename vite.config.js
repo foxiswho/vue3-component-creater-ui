@@ -22,6 +22,7 @@ export default defineConfig({
     extensions: [".vue", ".js"],
   },
   server: {
+    host: "0.0.0.0",
     fs: {
       // 可以为项目根目录的上一级提供服务
       allow: [".."],
