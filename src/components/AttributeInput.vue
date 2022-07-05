@@ -75,11 +75,11 @@
     model-value="first"
     class="demo-tabs"
   >
-  <!-- <el-form :model="form" label-width="120px"> -->
+  <el-form :model="form" label-width="120px">
     <el-tab-pane label="组件" name="first">
     <el-row>
       <el-col :span="24">
-      <el-input v-model="input" placeholder="标签名称" size="small"/>
+      <el-input v-model="label" placeholder="标签名称" size="small"/>
       </el-col>
     </el-row>
     <el-row>
@@ -107,8 +107,14 @@
    
     </el-tab-pane>
     <el-tab-pane label="表单" name="second">表单</el-tab-pane>
-  </el-tabs>
-  <!-- </el-form> -->
+
+    <el-tooltip class="item" effect="dark" content="保存" placement="bottom">
+        <el-button type="success" class="center" @click="saveFox" circle>
+          <el-icon><l-refresh /></el-icon>
+        </el-button>
+      </el-tooltip>
+    </el-form>
+    </el-tabs>
   </el-card>
 </template>
 
@@ -128,7 +134,9 @@ export default {
       autoplay: false,
       editMode: false,
       textAttributes: '',
-      form: {}
+      form: {
+        label:'tttt'
+      }
     };
   },
   mounted() {
@@ -247,6 +255,9 @@ export default {
     onHide() {
       this.destroyShortcut();
     },
+    saveFox(){
+      console.info('form',form)
+    }
   },
 
   computed: {
