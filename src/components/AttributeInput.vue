@@ -72,13 +72,43 @@
 <el-divider />
 <el-tabs
     type="card"
+    model-value="first"
     class="demo-tabs"
   >
+  <!-- <el-form :model="form" label-width="120px"> -->
     <el-tab-pane label="组件" name="first">
-    组件
+    <el-row>
+      <el-col :span="24">
+      <el-input v-model="input" placeholder="标签名称" size="small"/>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+       <el-switch
+        model-value="true"
+        size="small"
+        active-text="开"
+        inactive-text="关"
+      />
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-radio-group size="small">
+      <el-radio-button label="left">左对齐</el-radio-button>
+      <el-radio-button label="center" >居中</el-radio-button>
+      <el-radio-button label="right" >右对齐</el-radio-button>
+    </el-radio-group>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
+      <el-input v-model="input" placeholder="标签宽度" size="small"/>
+      </el-col>
+    </el-row>
+   
     </el-tab-pane>
     <el-tab-pane label="表单" name="second">表单</el-tab-pane>
   </el-tabs>
+  <!-- </el-form> -->
   </el-card>
 </template>
 
@@ -97,7 +127,8 @@ export default {
       enable: true,
       autoplay: false,
       editMode: false,
-      textAttributes: ''
+      textAttributes: '',
+      form: {}
     };
   },
   mounted() {
