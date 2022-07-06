@@ -33,6 +33,14 @@
               <div class="demonstration-element" lc_id="LdGjb6Df9M">Form 容器</div>
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" lc-mark label-width="100px" class="demo-border" lc_id="Zzz06+mzkO"></el-form>
           </div>
+          <div lc_id="PzuXdsu6kd1">
+              <div class="demonstration-element" lc_id="LdGjb6Df9M1">Form 容器案例</div>
+              <el-form :model="ruleForm" :rules="rules" ref="ruleForm" lc-mark label-width="100px" class="demo-border" lc_id="Zzz06+mzkO1" fox-components-type="FOX">
+                  <el-form-item label="标题" prop="name" lc-mark lc_id="6md1kDs8qa1">
+                      <el-input v-model="ruleForm.name" lc_id="QG5eYYTCSB1"></el-input>
+                  </el-form-item>
+              </el-form>
+          </div>
           <div lc_id="8ZewsTbRuD">
               <div class="demonstration-element" lc_id="cX5zh7f+RV">Form 典型表单</div>
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" lc-mark label-width="100px" class="demo-border" lc_id="gx5EBJU9WS">

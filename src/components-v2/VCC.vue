@@ -38,7 +38,7 @@
         <div class="round-icon icon-js" alt="" @click="jsDialogVisible = true">JS</div>
       </el-tooltip>
       <el-tooltip effect="dark" content="查看实时代码" placement="top-start">
-        <img class="round-icon" :src="iconCode" alt="" @click="codeDialogVisible = true">
+        <img class="round-icon" :src="iconCode" alt="" @click="codeDialogVisible = true;showJson()">
       </el-tooltip>
       <el-popconfirm confirmButtonText="确认" cancelButtonText="点错了" iconColor="red"
         title="点我将清空所有编辑的内容, 确认吗?" @confirm="clear">
@@ -119,7 +119,7 @@ export default {
     currentEditRawInfo(newValue) {
       const attributeContainter = document.querySelector(".attribute");
       if (newValue) {
-        attributeContainter.style = "right:1px; display:block;";
+        attributeContainter.style = "display:block;";
         this.$refs['attributeInput'].onShow();
       } else {
         // attributeContainter.style = "right: calc(-300px - 20px); display:none;";
@@ -243,7 +243,7 @@ export default {
               class: "container",
               "lc_id": "container",
               "style": "min-height: 100%; padding-bottom: 100px;",
-              __text__: "Hello，欢迎使用VCC编辑器，请往此区域拖拽组件",
+              __text__: "",
             }
           }]
         },
@@ -314,6 +314,9 @@ export default {
 
     help() {
       window.open('/doc')
+    },
+    showJson() {
+      console.log(JSON.stringify(this.codeRawVueInfo))
     }
   },
   fillter: {},
@@ -538,6 +541,23 @@ export default {
   color: white;
   left: 0 !important;
   top: 0 !important;
+  position: absolute;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+#render-control-panel .el-form-item:hover {
+  outline: rgb(252, 162, 162) 2px solid;
+}
+.form-item-unit::before {
+  content: attr(fox-component-name) !important;
+  background: #4dba87;
+  color: white;
+  left: 0 !important;
+  top: 0 !important;
+  transform: translateY(-100%);
   position: absolute;
   font-size: 12px;
   line-height: 12px;

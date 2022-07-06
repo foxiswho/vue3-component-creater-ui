@@ -175,7 +175,6 @@ export default {
     },
 
     initShortcut() {
-      console.log(`init by mode: ${this.shortcutInitMode}`)
       keymaster('⌘+a, ctrl+a', () => {
         if (this.enable) {
           this.createNew();
@@ -283,6 +282,7 @@ export default {
     attributeList() {
       const result = [];
       const vueRawInfo = this.__rawVueInfo__;
+      console.log('init by vueRawInfo: ',JSON.stringify(vueRawInfo))
       if (vueRawInfo) {
         const object = vueRawInfo[getRawComponentKey(vueRawInfo)];
 

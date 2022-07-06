@@ -49,7 +49,7 @@ export class MainPanelProvider {
         let code = this.codeGenerator.outputVueCodeWithJsonObj(rawDataStructure);
 
         // 将xxx: () => {} 转换为xxx(){}
-        code = code.replace(/:\s*\(([\w\s]*)\)\s*=>/g,"\($1\)");
+        code = code.replace(/:\s*\(([\w\s]*)\)\s*=>/g, "\($1\)");
 
         // 生成展示代码
         let codeForShow = code.replace(/\s{1}lc_id=".+?"/g, '');
@@ -67,7 +67,7 @@ export class MainPanelProvider {
         const componentOptions = (new Function(`return ${newScript}`))();
 
         componentOptions.template = template.content;
-        
+
         if (this.editMode) {
             // 渲染当前代码
             const readyForMoutedElement = this.createMountedElement();
@@ -76,10 +76,10 @@ export class MainPanelProvider {
                 // 开启编辑模式
                 this.enableEditMode();
             });
-            
+
             // 拍平数据结构
             this.flatDataStructure(rawDataStructure);
-    
+
         } else {
             // 渲染当前代码
             createBaseAppAsync(componentOptions).then(app => app.mount(this.mountedEle));
@@ -164,6 +164,31 @@ export class MainPanelProvider {
                 event.stopPropagation();
                 this.markElement(element);
             })
+            // 处理组件标记  添加
+            element.addEventListener("mouseenter", (event) => {
+                const thisClassList = element.classList;
+                if (thisClassList && thisClassList.contains("el-form-item")) {
+                    //mark-element 不存在时
+                    if (!thisClassList.contains("mark-element")) {
+                        //thisClassList.remove("form-item-unit");
+                        element.classList.add("form-item-unit");
+                        //event.stopPropagation();
+                    }
+                }
+            });
+            //移除
+            element.addEventListener("mouseleave", (event) => {
+                const thisClassList = element.classList;
+                if (thisClassList && thisClassList.contains("form-item-unit")) {
+                    element.classList.remove("form-item-unit");
+                    //event.stopPropagation();
+                }
+            });
+
+            if (element && element?.classList?.contains("el-form-item")) {
+                // 显示当前组件的名称
+                element.setAttribute('fox-component-name', getRawComponentKey(findRawVueInfo(element)));
+            }
         })
 
         this.initDropEvent();
@@ -280,11 +305,11 @@ export class MainPanelProvider {
     enableEditMode() {
         const renderControlPanel = this.getControlPanelRoot();
         // 加一个延迟的作用是：给el-table这种绘制需要时间的组件留出充足的时间，否则会造成el-table渲染不到页面上
-        
+
         if (this.enableDelayTask) {
             clearTimeout(this.enableDelayTask);
         }
-        
+
         this.enableDelayTask = setTimeout(() => {
             // 这种方式可以禁用原节点所有的事件
             const elClone = renderControlPanel.cloneNode(true);
