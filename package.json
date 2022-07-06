@@ -43,7 +43,7 @@
     "glob": "^8.0.3",
     "keymaster": "^1.6.2",
     "lodash-es": "^4.17.21",
-    "nanoid": "^3.3.4",
+    "nanoid": "^4.0.0",
     "prettier": "^2.4.0",
     "split.js": "^1.6.2",
     "vant": "^3.3.7",
@@ -88,5 +88,11 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "lint-staged": {
+    "*.{js,jsx,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }
