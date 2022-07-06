@@ -75,36 +75,40 @@
     model-value="first"
     class="demo-tabs"
   >
-  <el-form :model="form" label-width="120px">
+  <el-form :model="form" label-width="auto">
     <el-tab-pane label="组件" name="first">
     <el-row>
       <el-col :span="24">
-      <el-input v-model="label" placeholder="标签名称" size="small"/>
+        <el-form-item label="标签名称">
+          <el-input v-model="form.label" placeholder="标签名称" size="small"/>
+        </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="24">
-       <el-switch
-        model-value="true"
+    <el-form-item label="标签显示">
+          <el-switch
+        v-model="form.labelDisplay"
         size="small"
         active-text="开"
         inactive-text="关"
+        active-value="1"
+        inactive-value="0"
       />
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-radio-group size="small">
-      <el-radio-button label="left">左对齐</el-radio-button>
-      <el-radio-button label="center" >居中</el-radio-button>
-      <el-radio-button label="right" >右对齐</el-radio-button>
-    </el-radio-group>
-    </el-row>
+    </el-form-item>
+    <el-form-item label="标签对齐">
+        <el-radio-group size="small" v-model="form.labelAlign">
+        <el-radio-button label="left">左对齐</el-radio-button>
+        <el-radio-button label="center" >居中</el-radio-button>
+        <el-radio-button label="right" >右对齐</el-radio-button>
+        </el-radio-group>
+    </el-form-item>
+    
     <el-row>
       <el-col :span="24">
-      <el-input v-model="input" placeholder="标签宽度" size="small"/>
+       <el-form-item label="标签宽度">
+          <el-input v-model="form.labelWidth" placeholder="标签宽度" size="small"/>
+        </el-form-item>
       </el-col>
-    </el-row>
-   
+   </el-row>
     </el-tab-pane>
     <el-tab-pane label="表单" name="second">表单</el-tab-pane>
 
@@ -135,7 +139,10 @@ export default {
       editMode: false,
       textAttributes: '',
       form: {
-        label:'tttt'
+        label:'标签名称',
+        labelAlign: "right",
+        labelWidth: "120px",
+        labelDisplay: "1"
       }
     };
   },

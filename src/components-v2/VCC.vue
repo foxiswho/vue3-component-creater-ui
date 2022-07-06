@@ -15,6 +15,9 @@
             <!--这里不能放任何东西，执行时会被清空-->
           </div>
         </div>
+        
+      </div>
+      <div class="right-container">
         <attribute-input :enableRemoveButton="true" class="attribute" @save="onSaveAttr" @remove="onRemove"
           ref="attributeInput" shortcutInitMode="hand" :__rawVueInfo__="currentEditRawInfo">
         </attribute-input>
@@ -116,9 +119,10 @@ export default {
     currentEditRawInfo(newValue) {
       const attributeContainter = document.querySelector(".attribute");
       if (newValue) {
-        attributeContainter.style = "right:10px; display:block;";
+        attributeContainter.style = "right:1px; display:block;";
         this.$refs['attributeInput'].onShow();
       } else {
+        // attributeContainter.style = "right: calc(-300px - 20px); display:none;";
         attributeContainter.style = "right: calc(-300px - 20px); display:none;";
         this.$refs['attributeInput'].onHide();
       }
@@ -339,17 +343,17 @@ export default {
 }
 
 .attribute {
-  width: 300px;
-  border-radius: 10px;
-  margin-left: 10px;
+  width: 350px;
+  // border-radius: 10px;
+  // margin-left: 1px;
   position: absolute;
-  right: calc(-300px - 20px);
-  top: 10px;
+  // right: calc(-300px - 20px);
+  // top: 10px;
   background: white;
   max-height: calc(80% - 20px);
   transition: right 0.5s;
   overflow: scroll;
-  z-index: 2;
+  // z-index: 2;
 }
 
 #render-control-panel {
@@ -444,6 +448,14 @@ export default {
   border: 1px dashed rgb(126, 126, 128);
   border-radius: 10px;
   margin: 20px;
+}
+.right-container {
+  width:350px;
+  margin: 0px 0px 0 0;
+  display: block;
+  max-height: 100vh;
+  // flex-direction: column;
+  flex: 0 0 350px;
 }
 </style>
 
