@@ -263,6 +263,28 @@ export default {
     },
     saveFox(){
       console.info('form',form)
+    },
+    foxProcess(object) {
+      const foxType = 'fox-components-type';
+      console.log('vueRawInfo: ',object)
+      console.log('vueRawInfo: ', JSON.stringify(object))
+      let fm=this.form
+      if (object[foxType] == 'form-item') {
+        fm.label = object.label
+        //显示
+        if (!fm.label||!object.hasOwnProperty('labelDisplay')) {
+            fm.labelDisplay='1'
+        }
+        //显示
+        if (!fm.label||!object.hasOwnProperty('labelAlign')) {
+            fm.labelAlign='right'
+        }
+        //显示
+        if (!fm.label||!object.hasOwnProperty('labelWidth')) {
+            fm.labelWidth='120px'
+        }
+      }
+    
     }
   },
 
@@ -282,10 +304,8 @@ export default {
     attributeList() {
       const result = [];
       const vueRawInfo = this.__rawVueInfo__;
-      console.log('init by vueRawInfo: ',JSON.stringify(vueRawInfo))
       if (vueRawInfo) {
         const object = vueRawInfo[getRawComponentKey(vueRawInfo)];
-
         for (const key in object) {
           if (object.hasOwnProperty(key)) {
             const element = object[key];
@@ -293,6 +313,10 @@ export default {
               result.push({ key: key, value: element });
             }
           }
+        }
+        const foxType = 'fox-components-type';
+        if (object.hasOwnProperty(foxType)) {
+            this.foxProcess(object)
         }
       }
       return result;
