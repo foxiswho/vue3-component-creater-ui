@@ -92,7 +92,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="label" :checked="formFox.selected.indexOf('label') >= 0 ? 'checked' : ''" />
+              <el-checkbox true-label="label" v-model="checkboxFox['label']" />
             </el-col>
           </el-row>
           <el-form-item label="标签显示">
@@ -183,7 +183,8 @@ export default {
         labelAlign: "right",
         'label-width': "auto",
         labelDisplay: "1"
-      }
+      },
+      checkboxFox: []
     };
   },
   mounted() {
@@ -411,7 +412,9 @@ export default {
         'label-width': "auto",
         labelDisplay: "1"
       }
+      const checkbox = []
       this.formFox = fm
+      this.checkboxFox = checkbox
       if (vueRawInfo != undefined && vueRawInfo != null) {
         const object = vueRawInfo[getRawComponentKey(vueRawInfo)];
         const foxType = 'fox-components-type';
@@ -419,11 +422,13 @@ export default {
           for (const key in object) {
             if (object.hasOwnProperty(key)) {
               this.formFox.selected.push(key);
+              this.checkboxFox[key] = key
             }
           }
           console.info("this.formFox.selected", this.formFox.selected)
           console.info("this.formFox.selected", this.formFox.selected.indexOf('label'))
           console.info("this.formFox.selected", this.formFox.selected.indexOf('label') >= 0)
+          console.info("this.checkboxFox", this.checkboxFox)
           return cloneDeep(object);
         }
       }
