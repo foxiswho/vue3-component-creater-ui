@@ -13,8 +13,11 @@
           <div class="item" v-for="(item, index) in localAttributes" :key="index">
             <el-input v-model="item.key" :placeholder="'key' + index" class="half-width"></el-input>
             <div class="split">:</div>
-            <el-input v-model="item.value" :placeholder="'value' + index" class="half-width" style="flex-grow: 3;"></el-input>
-            <el-icon @click="deleteItem(index)" style="margin-left: 5px;"><l-minus /></el-icon>
+            <el-input v-model="item.value" :placeholder="'value' + index" class="half-width" style="flex-grow: 3;">
+            </el-input>
+            <el-icon @click="deleteItem(index)" style="margin-left: 5px;">
+              <l-minus />
+            </el-icon>
           </div>
 
           <div class="quick-add-root">
@@ -38,7 +41,7 @@
         </div>
       </div>
       <div name="2" v-show="editMode">
-        <el-input type="textarea" :autosize="{ minRows: 4}" placeholder="请输入属性, 以key: value的形式(冒号后要有空格)"
+        <el-input type="textarea" :autosize="{ minRows: 4 }" placeholder="请输入属性, 以key: value的形式(冒号后要有空格)"
           v-model="textAttributes">
         </el-input>
       </div>
@@ -47,77 +50,104 @@
     <div style="margin-top: 10px;text-align:center;">
       <el-tooltip class="item" effect="dark" content="新增属性 ctrl+a" placement="bottom">
         <el-button type="primary" class="center" @click="createNew" circle>
-          <el-icon><circle-plus /></el-icon>
+          <el-icon>
+            <circle-plus />
+          </el-icon>
         </el-button>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="保存属性 ctrl+s" placement="bottom">
         <el-button type="success" class="center" @click="save" circle>
-          <el-icon><l-refresh /></el-icon>
+          <el-icon>
+            <l-refresh />
+          </el-icon>
         </el-button>
       </el-tooltip>
       <el-tooltip v-if="enableRemoveButton" class="item" effect="dark" content="移除该组件 ctrl+d" placement="bottom">
         <el-button type="danger" class="center" @click="remove" circle>
-          <el-icon><l-delete /></el-icon>
+          <el-icon>
+            <l-delete />
+          </el-icon>
         </el-button>
       </el-tooltip>
       <el-tooltip v-if="enableBroButton" class="item" effect="dark" content="复制一个兄弟组件 ctrl+c" placement="bottom">
         <el-button type="primary" class="center" @click="copyBro" circle>
-          <el-icon><document-copy /></el-icon>
+          <el-icon>
+            <document-copy />
+          </el-icon>
         </el-button>
       </el-tooltip>
       <div style="text-algin: center;">
         <span class="shortcut-tip">支持快捷键操作</span>
       </div>
     </div>
-<el-divider />
-<el-tabs
-    type="card"
-    model-value="first"
-    class="demo-tabs"
-  >
-  <el-form :model="form" label-width="auto">
-    <el-tab-pane label="组件" name="first">
-    <el-row>
-      <el-col :span="24">
-        <el-form-item label="标签名称">
-          <el-input v-model="form.label" placeholder="标签名称" size="small"/>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-form-item label="标签显示">
-          <el-switch
-        v-model="form.labelDisplay"
-        size="small"
-        active-text="开"
-        inactive-text="关"
-        active-value="1"
-        inactive-value="0"
-      />
-    </el-form-item>
-    <el-form-item label="标签对齐">
-        <el-radio-group size="small" v-model="form.labelAlign">
-        <el-radio-button label="left">左对齐</el-radio-button>
-        <el-radio-button label="center" >居中</el-radio-button>
-        <el-radio-button label="right" >右对齐</el-radio-button>
-        </el-radio-group>
-    </el-form-item>
-    
-    <el-row>
-      <el-col :span="24">
-       <el-form-item label="标签宽度">
-          <el-input v-model="form.labelWidth" placeholder="标签宽度" size="small"/>
-        </el-form-item>
-      </el-col>
-   </el-row>
-    </el-tab-pane>
-    <el-tab-pane label="表单" name="second">表单</el-tab-pane>
+    <el-divider />
+    <el-tabs type="card" model-value="first" class="demo-tabs">
+      <el-form :model="formFox" label-width="auto">
+        <el-tab-pane label="组件" name="first">
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="标签名称">
+                <el-input v-model="formFox.label" placeholder="标签名称" size="small" />
 
-    <el-tooltip class="item" effect="dark" content="保存" placement="bottom">
-        <el-button type="success" class="center" @click="saveFox" circle>
-          <el-icon><l-refresh /></el-icon>
-        </el-button>
-      </el-tooltip>
-    </el-form>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="label" :checked="formFox.selected.indexOf('label') >= 0 ? 'checked' : ''" />
+            </el-col>
+          </el-row>
+          <el-form-item label="标签显示">
+            <el-col :span="22">
+              <el-switch v-model="formFox.labelDisplay" size="small" active-text="开" inactive-text="关" active-value="1"
+                inactive-value="0" />
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="标签对齐">
+            <el-col :span="22">
+              <el-radio-group size="small" v-model="formFox.labelAlign">
+                <el-radio-button label="left">左对齐</el-radio-button>
+                <el-radio-button label="center">居中</el-radio-button>
+                <el-radio-button label="right">右对齐</el-radio-button>
+              </el-radio-group>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox />
+            </el-col>
+          </el-form-item>
+
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="标签宽度">
+                <el-input v-model="formFox['label-width']" placeholder="标签宽度" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox />
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="表单" name="second">表单</el-tab-pane>
+
+        <el-tooltip class="item" effect="dark" content="保存" placement="bottom">
+          <el-button type="success" class="center" @click="saveFox" circle>
+            <el-icon>
+              <l-refresh />
+            </el-icon>
+          </el-button>
+        </el-tooltip>
+      </el-form>
+      <table style="width: 100%">
+        <tr>
+          <th>属性</th>
+          <th>选中</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
     </el-tabs>
   </el-card>
 </template>
@@ -127,6 +157,7 @@ import { getRawComponentKey, getRawComponentContent } from "@/utils/common";
 import { brotherEleEnum, copyBroCode } from "@/libs/bro-ele-config";
 import keymaster from "keymaster"
 import { store as _store } from "@/libs/store.js";
+import { cloneDeep } from 'lodash-es';
 
 export default {
   props: ['__rawVueInfo__', 'enableRemoveButton', 'shortcutInitMode'],// __rawVueInfo__为当前编辑的原始代码对象, shortcutInitMode快捷键的初始化方式
@@ -138,10 +169,19 @@ export default {
       autoplay: false,
       editMode: false,
       textAttributes: '',
-      form: {
-        label:'标签名称',
+      localAttributesFox: {},
+      formFox: {
+        selected: [],
+        label: '',
         labelAlign: "right",
-        labelWidth: "120px",
+        'label-width': "auto",
+        labelDisplay: "1"
+      },
+      formFoxSource: {
+        selected: [],
+        label: '',
+        labelAlign: "right",
+        'label-width': "auto",
         labelDisplay: "1"
       }
     };
@@ -261,30 +301,74 @@ export default {
     onHide() {
       this.destroyShortcut();
     },
-    saveFox(){
-      console.info('form',form)
+    saveFox() {
+      console.info('form', this.formFox)
+      try {
+
+        for (const key in object) {
+          if (object.hasOwnProperty(key)) {
+          }
+        }
+
+        //
+        let resultList = [];
+        const attributes = this.textAttributes.split('\n');
+        resultList = attributes.map(item => {
+          let [key, value] = item.split(": ");
+          if ('label' == key && this.formFox[key]) {
+            value = this.formFox[key];
+            console.info('form-label', this.formFox[key])
+          }
+          if ('label-width' == key && this.formFox[key]) {
+            value = this.formFox[key];
+            console.info('form-label-width', this.formFox[key])
+          }
+
+          return {
+            key, value
+          }
+        })
+        resultList.push({ key: 'label-width', value: this.formFox['label-width'] });
+        console.info('form-resultList', resultList)
+        this.textAttributes = resultList.map(item => `${item.key}: ${item.value}`).join('\n')
+
+
+        this.localAttributes = resultList;
+
+        this.$emit("save", { resultList, lc_id: this.rawInfoID });
+
+        this.$notify({
+          title: "提示",
+          message: '代码已更新',
+          position: 'bottom-right',
+          type: 'success'
+        });
+      } catch (error) {
+        this.$message.error(error);
+      }
     },
-    foxProcess(object) {
+    foxProcess() {
       const foxType = 'fox-components-type';
-      console.log('vueRawInfo: ',object)
-      console.log('vueRawInfo: ', JSON.stringify(object))
-      let fm=this.form
-      if (object[foxType] == 'form-item') {
-        fm.label = object.label
+      console.log('vueRawInfo: ', this.localAttributesFox)
+      console.log('vueRawInfo: ', JSON.stringify(this.localAttributesFox))
+      console.log('vueRawInfo: ', this.localAttributesFox[foxType])
+      console.log('vueRawInfo: ', this.localAttributesFox.label)
+      if (this.localAttributesFox[foxType] == 'form-item') {
+        this.formFox.label = this.localAttributesFox.label
         //显示
-        if (!fm.label||!object.hasOwnProperty('labelDisplay')) {
-            fm.labelDisplay='1'
+        if (!this.formFox.label || !this.localAttributesFox.hasOwnProperty('labelDisplay')) {
+          this.formFox.labelDisplay = '1'
         }
         //显示
-        if (!fm.label||!object.hasOwnProperty('labelAlign')) {
-            fm.labelAlign='right'
+        if (!this.formFox.label || !this.localAttributesFox.hasOwnProperty('labelAlign')) {
+          this.formFox.labelAlign = 'right'
         }
         //显示
-        if (!fm.label||!object.hasOwnProperty('labelWidth')) {
-            fm.labelWidth='120px'
+        if (!this.formFox.label || !this.localAttributesFox.hasOwnProperty('labelWidth')) {
+          this.formFox.labelWidth = '120px'
         }
       }
-    
+
     }
   },
 
@@ -314,9 +398,33 @@ export default {
             }
           }
         }
+      }
+      return result;
+    },
+    attributeListFox() {
+      const result = {};
+      const vueRawInfo = this.__rawVueInfo__;
+      const fm = {
+        selected: ['FFFFFFFFFFF'],
+        label: '',
+        labelAlign: "right",
+        'label-width': "auto",
+        labelDisplay: "1"
+      }
+      this.formFox = fm
+      if (vueRawInfo != undefined && vueRawInfo != null) {
+        const object = vueRawInfo[getRawComponentKey(vueRawInfo)];
         const foxType = 'fox-components-type';
-        if (object.hasOwnProperty(foxType)) {
-            this.foxProcess(object)
+        if (object && object.hasOwnProperty(foxType)) {
+          for (const key in object) {
+            if (object.hasOwnProperty(key)) {
+              this.formFox.selected.push(key);
+            }
+          }
+          console.info("this.formFox.selected", this.formFox.selected)
+          console.info("this.formFox.selected", this.formFox.selected.indexOf('label'))
+          console.info("this.formFox.selected", this.formFox.selected.indexOf('label') >= 0)
+          return cloneDeep(object);
         }
       }
       return result;
@@ -339,7 +447,18 @@ export default {
       }
 
       this.textAttributes = newValue.map(item => `${item.key}: ${item.value}`).join('\n')
-    }
+    },
+    attributeListFox: {
+      handler: function () {
+        this.localAttributesFox = this.attributeListFox;
+        console.log("sssss222", this.localAttributesFox)
+        const foxType = 'fox-components-type';
+        if (this.localAttributesFox.hasOwnProperty(foxType)) {
+          this.foxProcess()
+        }
+      },
+      immediate: true
+    },
   },
 };
 </script>
@@ -378,7 +497,7 @@ export default {
     margin-right: 5px;
   }
 
-  .tag:last-child{
+  .tag:last-child {
     margin-right: 0;
   }
 }
@@ -394,7 +513,7 @@ export default {
   margin-left: 10px;
 }
 
-.el-button + .el-button {
+.el-button+.el-button {
   margin-left: 0px;
 }
 
@@ -403,5 +522,10 @@ export default {
   color: grey;
   padding: 2px;
   border-bottom: grey solid 1px;
+}
+
+.attribute-container>:first-child {
+  padding-right: 10px;
+  padding-left: 10px;
 }
 </style>

@@ -5,7 +5,7 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 // 以这样一段结构初始化VCC组件
-const initCodeStr = '{"template":{"lc_id":"root","__children":[{"div":{"class":"container","style":"min-height: 100%; padding-bottom: 100px;","lc_id":"container","__text__":"","__children":[{"div": {"__text__": "{{showText}}", "lc_id": "text"}},{"el-button":{"lc-mark":"","type":"danger","lc_id":"COAAYXizyI","__children":[],"__text__":"{{showValue}}","@click":"hello","size":"small"}}]}}]}}'
+const initCodeStr = '{"template":{"lc_id":"root","__children":[{"div":{"class":"container","style":"min-height: 100%; padding-bottom: 100px;","lc_id":"container","__text__":"","__children":[{"el-form":{":model":"ruleForm",":rules":"rules","ref":"ruleForm","lc-mark":"","label-width":"100px","class":"demo-border","lc_id":"duihphjqis","fox-components-type":"form","__children":[{"el-form-item":{"label":"标题","prop":"name","lc-mark":"","lc_id":"n7xh7xcozm","fox-components-type":"form-item","__children":[{"el-input":{"v-model":"ruleForm.name","lc_id":"6mycyzkhag","__children":[]}}]}}]}}]}}]}}'
 
 export default {
   components: {
@@ -15,20 +15,7 @@ export default {
     return {
       codeInfoEntity: {
         codeStructure: JSON.parse(initCodeStr),
-        JSCode: `
-{
-  data() {
-    return { 
-      showValue: "开启预览模式后,点击我显示预设逻辑", 
-      showText: "这里的值声明于预设JS代码" 
-    };
-  },
-  methods: {
-    hello() {
-      alert("来自预设逻辑代码的问候");
-    },
-  },
-}`
+        JSCode: ``
       },
     }
   },
@@ -43,8 +30,8 @@ export default {
       console.log(JSON.stringify(this.codeRawVueInfo))
       console.log(JSCode)
     },
-    onLoadFinish(){
-      
+    onLoadFinish() {
+
     }
   }
 }
