@@ -92,7 +92,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="label" v-model="checkboxFox['label']" />
+              <el-checkbox true-label="label" false-label="label-false" v-model="checkboxFox['label']"
+                @change="onChangeCheckbox" />
             </el-col>
           </el-row>
           <el-form-item label="标签显示">
@@ -101,7 +102,7 @@
                 inactive-value="0" />
             </el-col>
             <el-col :span="2" style="text-align: right;">
-              <el-checkbox />
+              <el-checkbox true-label="labelDisplay" v-model="checkboxFox['labelDisplay']" />
             </el-col>
           </el-form-item>
           <el-form-item label="标签对齐">
@@ -306,10 +307,10 @@ export default {
       console.info('form', this.formFox)
       try {
 
-        for (const key in object) {
-          if (object.hasOwnProperty(key)) {
-          }
-        }
+        // for (const key in object) {
+        //   if (object.hasOwnProperty(key)) {
+        //   }
+        // }
 
         //
         let resultList = [];
@@ -348,6 +349,65 @@ export default {
         this.$message.error(error);
       }
     },
+    onChangeCheckbox(event, obj) {
+      const field = event
+      let add = false
+      let falseLabel = field
+      console.info('falseLabel', falseLabel);
+      console.info('event', event);
+      if (event.indexOf('-false') > 1) {
+        add = false
+        falseLabel = falseLabel.replace('-false', '')
+        console.info('falseLabel', falseLabel);
+      } else {
+        add = true
+      }
+      try {
+        //
+        let resultList = [];
+        let findField = [];
+        const attributes = this.textAttributes.split('\n');
+        resultList = attributes.map(item => {
+          let [key, value] = item.split(": ");
+          findField[key] = key;
+          return {
+            key, value
+          }
+        })
+        if (add && findField[field]) {
+          resultList.push({ key: field, value: this.formFox[field] });
+        } else {
+          resultList = attributes.map(item => {
+            let [key, value] = item.split(": ");
+            if (key == falseLabel) {
+              return;
+            }
+            findField[key] = key;
+            return {
+              key, value
+            }
+          })
+        }
+
+        console.info('form-resultList', resultList)
+        return;
+        this.textAttributes = resultList.map(item => `${item.key}: ${item.value}`).join('\n')
+
+
+        this.localAttributes = resultList;
+
+        this.$emit("save", { resultList, lc_id: this.rawInfoID });
+
+        this.$notify({
+          title: "提示",
+          message: '代码已更新',
+          position: 'bottom-right',
+          type: 'success'
+        });
+      } catch (error) {
+        this.$message.error(error);
+      }
+    },
     foxProcess() {
       const foxType = 'fox-components-type';
       console.log('vueRawInfo: ', this.localAttributesFox)
@@ -369,7 +429,6 @@ export default {
           this.formFox.labelWidth = '120px'
         }
       }
-
     }
   },
 
