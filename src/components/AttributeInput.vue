@@ -102,7 +102,8 @@
                 inactive-value="0" />
             </el-col>
             <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="labelDisplay" v-model="checkboxFox['labelDisplay']" />
+              <el-checkbox true-label="labelDisplay" false-label="labelDisplay" v-model="checkboxFox['labelDisplay']"
+                @change="onChangeCheckbox" />
             </el-col>
           </el-form-item>
           <el-form-item label="标签对齐">
@@ -374,23 +375,50 @@ export default {
             key, value
           }
         })
-        if (add && findField[field]) {
-          resultList.push({ key: field, value: this.formFox[field] });
-        } else {
+        console.info('add', add)
+        console.info('findField[field]', findField[field])
+        console.info('findField[field]resultList', resultList)
+        //添加，不存在
+        if (add && findField[field] == undefined) {
+          //显示
+          if (field == 'labelDisplay') {
+resultList.push({ key: 'label-width', value: '0' });
+// resultList.push({ key: 'label', value: '' });
+
+
+          } else {
+            resultList.push({ key: field, value: this.formFox[field] });
+          }
+
+        } else if (add && findField[field]) {
+          // 添加，已存在
+          resultList = []
           resultList = attributes.map(item => {
             let [key, value] = item.split(": ");
-            if (key == falseLabel) {
-              return;
+            if (key == field) {
+              value = this.formFox[field];
             }
-            findField[key] = key;
             return {
               key, value
             }
           })
+        } else {
+          resultList = []
+          attributes.map(item => {
+            let [key, value] = item.split(": ");
+            if (key !== falseLabel) {
+              findField[key] = key;
+
+              resultList.push({
+                key, value
+              });
+            }
+
+          })
         }
 
-        console.info('form-resultList', resultList)
-        return;
+        // console.info('form-resultList', resultList)
+        // return;
         this.textAttributes = resultList.map(item => `${item.key}: ${item.value}`).join('\n')
 
 
