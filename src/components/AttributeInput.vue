@@ -129,6 +129,39 @@
               <el-checkbox />
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="绑定值">
+                <el-input v-model="formFox['v-model']" placeholder="绑定值" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="v-model" false-label="v-model-false" v-model="checkboxFox['v-model']"
+                @change="onChangeCheckbox" />
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="最大输入长度">
+                <el-input v-model="formFox['maxlength']" placeholder="最大输入长度" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="maxlength" false-label="maxlength-false" v-model="checkboxFox['maxlength']"
+                @change="onChangeCheckbox" />
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="最小输入长度">
+                <el-input v-model="formFox['minlength']" placeholder="最小输入长度" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="minlength" false-label="minlength-false" v-model="checkboxFox['minlength']"
+                @change="onChangeCheckbox" />
+            </el-col>
+          </el-row>
         </el-tab-pane>
         <el-tab-pane label="表单" name="second">表单</el-tab-pane>
 
@@ -466,6 +499,23 @@ export default {
         });
 
         console.info('fc.getComponentFormat()', fc.getComponentFormat())
+        const attr = fc.getComponentFormat()
+        if (attr != null) {
+          for (const key in attr.popular) {
+            if (this.localAttributesFox.hasOwnProperty(key)) {
+              this.formFox[key] = this.localAttributesFox[key]
+            } else {
+              this.formFox[key] = ''
+            }
+          }
+          for (const key in attr.optional) {
+            if (this.localAttributesFox.hasOwnProperty(key)) {
+              this.formFox[key] = this.localAttributesFox[key]
+            } else {
+              this.formFox[key] = ''
+            }
+          }
+        }
       }
 
     }
