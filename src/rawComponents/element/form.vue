@@ -33,11 +33,11 @@
               <div class="demonstration-element" lc_id="LdGjb6Df9M">Form 容器</div>
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" lc-mark label-width="100px" class="demo-border" lc_id="Zzz06+mzkO"></el-form>
           </div>
-          <div lc_id="PzuXdsu6kd1">
-              <div class="demonstration-element" lc_id="LdGjb6Df9M1">Form 容器案例</div>
-              <el-form :model="formFox" :rules="rulesFox" ref="formFox" lc-mark label-width="100px" class="demo-border" lc_id="Zzz06+mzkO1" fox-components-type="form">
-                  <el-form-item label="标题" prop="name" lc-mark lc_id="6md1kDs8qa1" fox-components-type="form-item">
-                      <el-input v-model="formFox.name" lc_id="QG5eYYTCSB1"></el-input>
+          <div lc_id="fromD">
+              <div class="demonstration-element" lc_id="fromD_T">Form 容器案例</div>
+              <el-form :model="formFox" :rules="rulesFox" ref="formFox" lc-mark label-width="100px" class="demo-border" lc_id="formFox" fox-components-type="form">
+                  <el-form-item label="标题" prop="name" lc-mark lc_id="formFox-item1" fox-components-type="form-item">
+                      <el-input v-model="formFox.name" lc_id="formFox-input1"></el-input>
                   </el-form-item>
               </el-form>
           </div>

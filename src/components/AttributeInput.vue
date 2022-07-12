@@ -382,8 +382,8 @@ export default {
         if (add && findField[field] == undefined) {
           //显示
           if (field == 'labelDisplay') {
-resultList.push({ key: 'label-width', value: '0' });
-// resultList.push({ key: 'label', value: '' });
+            resultList.push({ key: 'label-width', value: '0' });
+            // resultList.push({ key: 'label', value: '' });
 
 
           } else {
@@ -502,6 +502,7 @@ resultList.push({ key: 'label-width', value: '0' });
       const checkbox = []
       this.formFox = fm
       this.checkboxFox = checkbox
+      console.info("attributeListFox.vueRawInfo", vueRawInfo)
       if (vueRawInfo != undefined && vueRawInfo != null) {
         const object = vueRawInfo[getRawComponentKey(vueRawInfo)];
         const foxType = 'fox-components-type';
