@@ -160,6 +160,7 @@ import { brotherEleEnum, copyBroCode } from "@/libs/bro-ele-config";
 import keymaster from "keymaster"
 import { store as _store } from "@/libs/store.js";
 import { cloneDeep } from 'lodash-es';
+import { FoxComponent } from '@/utils/foxComponent';
 
 export default {
   props: ['__rawVueInfo__', 'enableRemoveButton', 'shortcutInitMode'],// __rawVueInfo__为当前编辑的原始代码对象, shortcutInitMode快捷键的初始化方式
@@ -457,6 +458,16 @@ export default {
           this.formFox.labelWidth = '120px'
         }
       }
+      // console.log('foxProcess.hasOwnProperty: ', this.localAttributesFox.hasOwnProperty(foxType))
+      if (this.localAttributesFox && this.localAttributesFox.hasOwnProperty(foxType)) {
+        const fc = new FoxComponent({
+          component: this.localAttributesFox[foxType],
+          package: 'el'
+        });
+
+        console.info('fc.getComponentFormat()', fc.getComponentFormat())
+      }
+
     }
   },
 
@@ -509,6 +520,7 @@ export default {
         const object = vueRawInfo[key];
         console.info("this.object", object)
         const foxType = 'fct';
+        result.ct = key
         if (object && object.hasOwnProperty(foxType)) {
           for (const key in object) {
             if (object.hasOwnProperty(key)) {
@@ -521,7 +533,9 @@ export default {
           console.info("this.formFox.selected", this.formFox.selected.indexOf('label'))
           console.info("this.formFox.selected", this.formFox.selected.indexOf('label') >= 0)
           console.info("this.checkboxFox", this.checkboxFox)
-          return cloneDeep(object);
+          let cl = cloneDeep(object);
+          cl.ct = key
+          return cl;
         }
       }
       return result;
