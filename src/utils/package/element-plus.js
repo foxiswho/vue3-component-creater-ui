@@ -22,7 +22,7 @@ export default {
                 type: ['text', 'textarea']
             },
             'placeholder': {
-                name: '输入框占位文本'
+                name: '占位提示'
             },
             'clearable': {
                 name: '是否可清空'
@@ -65,9 +65,9 @@ export default {
             'autocomplete': {
                 name: '自动完成'
             },
-            // 'name': {
-            //     name: '名称'
-            // },
+            'name': {
+                name: '字段名'
+            },
             'readonly': {
                 name: '只读'
             },
@@ -95,6 +95,7 @@ export default {
             'show-word-limit',
             'placeholder',
             'disabled',
+            'name',
         ]
     },
 }

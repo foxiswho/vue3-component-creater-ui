@@ -102,7 +102,7 @@
                 inactive-value="0" />
             </el-col>
             <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="labelDisplay" false-label="labelDisplay" v-model="checkboxFox['labelDisplay']"
+              <el-checkbox true-label="labelDisplay" false-label="labelDisplay-false" v-model="checkboxFox['labelDisplay']"
                 @change="onChangeCheckbox" />
             </el-col>
           </el-form-item>
@@ -140,6 +140,66 @@
                 @change="onChangeCheckbox" />
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="字段名">
+                <el-input v-model="formFox['name']" placeholder="字段名" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="name" false-label="name-false" v-model="checkboxFox['name']"
+                @change="onChangeCheckbox" />
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="占位提示">
+                <el-input v-model="formFox['placeholder']" placeholder="占位提示" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="placeholder" false-label="placeholder-false" v-model="checkboxFox['placeholder']"
+                @change="onChangeCheckbox" />
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="默认值">
+                <el-input v-model="formFox['defaultValue']" placeholder="默认值" size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="defaultValue" false-label="defaultValue-false"
+                v-model="checkboxFox['defaultValue']" @change="onChangeCheckbox" />
+            </el-col>
+          </el-row>
+          <el-form-item label="能否清空">
+            <el-col :span="22">
+              <el-switch v-model="formFox.clearable" size="small" active-value="1" inactive-value="0" />
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="clearable" false-label="clearable-false" v-model="checkboxFox['clearable']"
+                @change="onChangeCheckbox" />
+            </el-col>
+          </el-form-item>
+           <el-form-item label="是否只读">
+            <el-col :span="22">
+              <el-switch v-model="formFox.readonly" size="small" active-value="1" inactive-value="0" />
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="readonly" false-label="readonly-false" v-model="checkboxFox['readonly']"
+                @change="onChangeCheckbox" />
+            </el-col>
+          </el-form-item>
+          <el-form-item label="是否禁用">
+            <el-col :span="22">
+              <el-switch v-model="formFox.disabled" size="small" active-value="1" inactive-value="0" />
+            </el-col>
+            <el-col :span="2" style="text-align: right;">
+              <el-checkbox true-label="disabled" false-label="disabled-false" v-model="checkboxFox['disabled']"
+                @change="onChangeCheckbox" />
+            </el-col>
+          </el-form-item>
           <el-row>
             <el-col :span="22">
               <el-form-item label="最大输入长度">
