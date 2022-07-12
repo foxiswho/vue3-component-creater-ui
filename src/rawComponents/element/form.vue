@@ -35,9 +35,9 @@
           </div>
           <div lc_id="from-div-fox">
               <div class="demonstration-element" lc_id="from-div-title">Form 容器案例</div>
-              <el-form :model="formFox" :rules="rulesFox" ref="formFox" lc-mark label-width="100px" class="demo-border" lc_id="form-fox" f_id="form-fox" fox-components-type="form">
-                  <el-form-item label="标题" prop="name" lc-mark lc_id="form-item1-fox" f_id="form-item1-fox" fox-components-type="form-item">
-                      <el-input v-model="formFox.name" lc_id="form-item1-input-fox" f_id="form-item1-input-fox"></el-input>
+              <el-form :model="formFox" :rules="rulesFox" ref="formFox" lc-mark label-width="100px" class="demo-border" lc_id="form-fox" f_id="form-fox" fct="form">
+                  <el-form-item label="标题" prop="name" lc-mark lc_id="form-item1-fox" f_id="form-item1-fox" fct="form-item">
+                      <el-input v-model="formFox.name" lc_id="form-item1-input-fox" f_id="form-item1-input-fox" fct="input"></el-input>
                   </el-form-item>
               </el-form>
           </div>

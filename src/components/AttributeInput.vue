@@ -437,7 +437,7 @@ export default {
       }
     },
     foxProcess() {
-      const foxType = 'fox-components-type';
+      const foxType = 'fct';
       console.log('vueRawInfo: ', this.localAttributesFox)
       console.log('vueRawInfo: ', JSON.stringify(this.localAttributesFox))
       console.log('vueRawInfo: ', this.localAttributesFox[foxType])
@@ -504,8 +504,11 @@ export default {
       this.checkboxFox = checkbox
       console.info("attributeListFox.vueRawInfo", vueRawInfo)
       if (vueRawInfo != undefined && vueRawInfo != null) {
-        const object = vueRawInfo[getRawComponentKey(vueRawInfo)];
-        const foxType = 'fox-components-type';
+        const key = getRawComponentKey(vueRawInfo)
+        console.info("attributeListFox.key", key)
+        const object = vueRawInfo[key];
+        console.info("this.object", object)
+        const foxType = 'fct';
         if (object && object.hasOwnProperty(foxType)) {
           for (const key in object) {
             if (object.hasOwnProperty(key)) {
@@ -513,6 +516,7 @@ export default {
               this.checkboxFox[key] = key
             }
           }
+
           console.info("this.formFox.selected", this.formFox.selected)
           console.info("this.formFox.selected", this.formFox.selected.indexOf('label'))
           console.info("this.formFox.selected", this.formFox.selected.indexOf('label') >= 0)
@@ -545,7 +549,7 @@ export default {
       handler: function () {
         this.localAttributesFox = this.attributeListFox;
         console.log("sssss222", this.localAttributesFox)
-        const foxType = 'fox-components-type';
+        const foxType = 'fct';
         if (this.localAttributesFox.hasOwnProperty(foxType)) {
           this.foxProcess()
         }
