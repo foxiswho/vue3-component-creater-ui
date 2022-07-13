@@ -1,248 +1,249 @@
 <template>
   <el-card class="attribute-container">
 
-    <div style="text-align: center;">
-      <el-switch v-model="editMode" active-text="自由编辑" inactive-text="约束编辑" active-color="#13ce66"
-        inactive-color="#13ce66">
-      </el-switch>
-    </div>
-
-    <div style="margin-top: 20px;">
-      <div name="1" v-show="!editMode">
-        <div>
-          <div class="item" v-for="(item, index) in localAttributes" :key="index">
-            <el-input v-model="item.key" :placeholder="'key' + index" class="half-width"></el-input>
-            <div class="split">:</div>
-            <el-input v-model="item.value" :placeholder="'value' + index" class="half-width" style="flex-grow: 3;">
-            </el-input>
-            <el-icon @click="deleteItem(index)" style="margin-left: 5px;">
-              <l-minus />
-            </el-icon>
-          </div>
-
-          <div class="quick-add-root">
-            快速增加一些属性:
-            <div style="margin-top: 5px;">
-              <transition name="el-zoom-in-center">
-                <el-tag v-if="attributeKeys.indexOf('class') == -1" size="small" type="success" @click="onClassClick"
-                  effect="dark" class="tag">Class
-                </el-tag>
-              </transition>
-              <transition name="el-zoom-in-center">
-                <el-tag v-if="attributeKeys.indexOf('@click') == -1" size="small" type="success" @click="onEventClick"
-                  effect="dark" class="tag">点击事件</el-tag>
-              </transition>
-              <transition name="el-zoom-in-center">
-                <el-tag v-if="!attributeKeys.includes('__text__')" size="small" type="success" @click="onTextClick"
-                  effect="dark" class="tag">文本内容</el-tag>
-              </transition>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div name="2" v-show="editMode">
-        <el-input type="textarea" :autosize="{ minRows: 4 }" placeholder="请输入属性, 以key: value的形式(冒号后要有空格)"
-          v-model="textAttributes">
-        </el-input>
-      </div>
-    </div>
-
-    <div style="margin-top: 10px;text-align:center;">
-      <el-tooltip class="item" effect="dark" content="新增属性 ctrl+a" placement="bottom">
-        <el-button type="primary" class="center" @click="createNew" circle>
-          <el-icon>
-            <circle-plus />
-          </el-icon>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="保存属性 ctrl+s" placement="bottom">
-        <el-button type="success" class="center" @click="save" circle>
-          <el-icon>
-            <l-refresh />
-          </el-icon>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip v-if="enableRemoveButton" class="item" effect="dark" content="移除该组件 ctrl+d" placement="bottom">
-        <el-button type="danger" class="center" @click="remove" circle>
-          <el-icon>
-            <l-delete />
-          </el-icon>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip v-if="enableBroButton" class="item" effect="dark" content="复制一个兄弟组件 ctrl+c" placement="bottom">
-        <el-button type="primary" class="center" @click="copyBro" circle>
-          <el-icon>
-            <document-copy />
-          </el-icon>
-        </el-button>
-      </el-tooltip>
-      <div style="text-algin: center;">
-        <span class="shortcut-tip">支持快捷键操作</span>
-      </div>
-    </div>
-    <el-divider />
     <el-tabs type="card" model-value="first" class="demo-tabs">
       <el-form :model="formFox" label-width="auto">
         <el-tab-pane label="组件" name="first">
-          <el-row>
-            <el-col :span="22">
-              <el-form-item label="标签名称">
-                <el-input v-model="formFox.label" placeholder="标签名称" size="small" />
-
+          <el-collapse v-model="collapseShow">
+            <el-collapse-item title="常用属性" name="1">
+              <el-form-item label="标签名称" v-if="formComponent?.popular?.hasOwnProperty('label')">
+                <el-col :span="22">
+                  <el-input v-model="formFox.label" placeholder="标签名称" size="small" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="label" false-label="label-false" v-model="checkboxFox['label']"
+                    @change="onChangeCheckbox" />
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="label" false-label="label-false" v-model="checkboxFox['label']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-row>
-          <el-form-item label="标签显示">
-            <el-col :span="22">
-              <el-switch v-model="formFox.labelDisplay" size="small" active-text="开" inactive-text="关" active-value="1"
-                inactive-value="0" />
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="labelDisplay" false-label="labelDisplay-false" v-model="checkboxFox['labelDisplay']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-form-item>
-          <el-form-item label="标签对齐">
-            <el-col :span="22">
-              <el-radio-group size="small" v-model="formFox.labelAlign">
-                <el-radio-button label="left">左对齐</el-radio-button>
-                <el-radio-button label="center">居中</el-radio-button>
-                <el-radio-button label="right">右对齐</el-radio-button>
-              </el-radio-group>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox />
-            </el-col>
-          </el-form-item>
-
-          <el-row>
-            <el-col :span="22">
+              <el-form-item label="标签显示" v-if="formComponent?.popular?.hasOwnProperty('labelDisplay')">
+                <el-col :span="22">
+                  <el-switch v-model="formFox.labelDisplay" size="small" active-text="开" inactive-text="关"
+                    active-value="1" inactive-value="0" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="labelDisplay" false-label="labelDisplay-false"
+                    v-model="checkboxFox['labelDisplay']" @change="onChangeCheckbox" />
+                </el-col>
+              </el-form-item>
+              <el-form-item label="标签对齐" v-if="formComponent?.popular?.hasOwnProperty('labelAlign')">
+                <el-col :span="22">
+                  <el-radio-group size="small" v-model="formFox.labelAlign">
+                    <el-radio-button label="left">左对齐</el-radio-button>
+                    <el-radio-button label="center">居中</el-radio-button>
+                    <el-radio-button label="right">右对齐</el-radio-button>
+                  </el-radio-group>
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox />
+                </el-col>
+              </el-form-item>
               <el-form-item label="标签宽度">
-                <el-input v-model="formFox['label-width']" placeholder="标签宽度" size="small" />
+                <el-col :span="22">
+
+                  <el-input v-model="formFox['label-width']" placeholder="标签宽度" size="small" />
+
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox />
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox />
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="22">
               <el-form-item label="绑定值">
-                <el-input v-model="formFox['v-model']" placeholder="绑定值" size="small" />
+                <el-col :span="22">
+                  <el-input v-model="formFox['v-model']" placeholder="绑定值" size="small" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="v-model" false-label="v-model-false" v-model="checkboxFox['v-model']"
+                    @change="onChangeCheckbox" />
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="v-model" false-label="v-model-false" v-model="checkboxFox['v-model']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="22">
               <el-form-item label="字段名">
-                <el-input v-model="formFox['name']" placeholder="字段名" size="small" />
+                <el-col :span="22">
+                  <el-input v-model="formFox['name']" placeholder="字段名" size="small" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="name" false-label="name-false" v-model="checkboxFox['name']"
+                    @change="onChangeCheckbox" />
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="name" false-label="name-false" v-model="checkboxFox['name']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="22">
               <el-form-item label="占位提示">
-                <el-input v-model="formFox['placeholder']" placeholder="占位提示" size="small" />
+                <el-col :span="22">
+                  <el-input v-model="formFox['placeholder']" placeholder="占位提示" size="small" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="placeholder" false-label="placeholder-false"
+                    v-model="checkboxFox['placeholder']" @change="onChangeCheckbox" />
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="placeholder" false-label="placeholder-false" v-model="checkboxFox['placeholder']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="22">
               <el-form-item label="默认值">
-                <el-input v-model="formFox['defaultValue']" placeholder="默认值" size="small" />
+                <el-col :span="22">
+                  <el-input v-model="formFox['defaultValue']" placeholder="默认值" size="small" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="defaultValue" false-label="defaultValue-false"
+                    v-model="checkboxFox['defaultValue']" @change="onChangeCheckbox" />
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="defaultValue" false-label="defaultValue-false"
-                v-model="checkboxFox['defaultValue']" @change="onChangeCheckbox" />
-            </el-col>
-          </el-row>
-          <el-form-item label="能否清空">
-            <el-col :span="22">
-              <el-switch v-model="formFox.clearable" size="small" active-value="1" inactive-value="0" />
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="clearable" false-label="clearable-false" v-model="checkboxFox['clearable']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-form-item>
-           <el-form-item label="是否只读">
-            <el-col :span="22">
-              <el-switch v-model="formFox.readonly" size="small" active-value="1" inactive-value="0" />
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="readonly" false-label="readonly-false" v-model="checkboxFox['readonly']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-form-item>
-          <el-form-item label="是否禁用">
-            <el-col :span="22">
-              <el-switch v-model="formFox.disabled" size="small" active-value="1" inactive-value="0" />
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="disabled" false-label="disabled-false" v-model="checkboxFox['disabled']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-form-item>
-          <el-row>
-            <el-col :span="22">
+              <el-form-item label="能否清空">
+                <el-col :span="22">
+                  <el-switch v-model="formFox.clearable" size="small" active-value="1" inactive-value="0" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="clearable" false-label="clearable-false" v-model="checkboxFox['clearable']"
+                    @change="onChangeCheckbox" />
+                </el-col>
+              </el-form-item>
+              <el-form-item label="是否只读">
+                <el-col :span="22">
+                  <el-switch v-model="formFox.readonly" size="small" active-value="1" inactive-value="0" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="readonly" false-label="readonly-false" v-model="checkboxFox['readonly']"
+                    @change="onChangeCheckbox" />
+                </el-col>
+              </el-form-item>
+              <el-form-item label="是否禁用">
+                <el-col :span="22">
+                  <el-switch v-model="formFox.disabled" size="small" active-value="1" inactive-value="0" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="disabled" false-label="disabled-false" v-model="checkboxFox['disabled']"
+                    @change="onChangeCheckbox" />
+                </el-col>
+              </el-form-item>
               <el-form-item label="最大输入长度">
-                <el-input v-model="formFox['maxlength']" placeholder="最大输入长度" size="small" />
+                <el-col :span="22">
+
+                  <el-input v-model="formFox['maxlength']" placeholder="最大输入长度" size="small" />
+
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="maxlength" false-label="maxlength-false" v-model="checkboxFox['maxlength']"
+                    @change="onChangeCheckbox" />
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="maxlength" false-label="maxlength-false" v-model="checkboxFox['maxlength']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="22">
               <el-form-item label="最小输入长度">
-                <el-input v-model="formFox['minlength']" placeholder="最小输入长度" size="small" />
+                <el-col :span="22">
+                  <el-input v-model="formFox['minlength']" placeholder="最小输入长度" size="small" />
+                </el-col>
+                <el-col :span="2" style="text-align: right;">
+                  <el-checkbox true-label="minlength" false-label="minlength-false" v-model="checkboxFox['minlength']"
+                    @change="onChangeCheckbox" />
+                </el-col>
               </el-form-item>
-            </el-col>
-            <el-col :span="2" style="text-align: right;">
-              <el-checkbox true-label="minlength" false-label="minlength-false" v-model="checkboxFox['minlength']"
-                @change="onChangeCheckbox" />
-            </el-col>
-          </el-row>
+            </el-collapse-item>
+            <el-collapse-item title="其他属性" name="2">
+              <div>
+                其他属性
+              </div>
+            </el-collapse-item>
+            <el-collapse-item title="事件" name="3">
+              <div>
+                其他属性
+              </div>
+            </el-collapse-item>
+            <el-collapse-item title="操作" name="action">
+              <el-tooltip class="item" effect="dark" content="保存" placement="bottom">
+                <el-button type="success" class="center" @click="saveFox" circle>
+                  <el-icon>
+                    <l-refresh />
+                  </el-icon>
+                </el-button>
+              </el-tooltip>
+            </el-collapse-item>
+            <el-collapse-item title="高级操作" name="pro">
+
+              <div style="text-align: center;">
+                <el-switch v-model="editMode" active-text="自由编辑" inactive-text="约束编辑" active-color="#13ce66"
+                  inactive-color="#13ce66">
+                </el-switch>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <div name="1" v-show="!editMode">
+                  <div>
+                    <div class="item" v-for="(item, index) in localAttributes" :key="index">
+                      <el-input v-model="item.key" :placeholder="'key' + index" class="half-width"></el-input>
+                      <div class="split">:</div>
+                      <el-input v-model="item.value" :placeholder="'value' + index" class="half-width"
+                        style="flex-grow: 3;">
+                      </el-input>
+                      <el-icon @click="deleteItem(index)" style="margin-left: 5px;">
+                        <l-minus />
+                      </el-icon>
+                    </div>
+
+                    <div class="quick-add-root">
+                      快速增加一些属性:
+                      <div style="margin-top: 5px;">
+                        <transition name="el-zoom-in-center">
+                          <el-tag v-if="attributeKeys.indexOf('class') == -1" size="small" type="success"
+                            @click="onClassClick" effect="dark" class="tag">Class
+                          </el-tag>
+                        </transition>
+                        <transition name="el-zoom-in-center">
+                          <el-tag v-if="attributeKeys.indexOf('@click') == -1" size="small" type="success"
+                            @click="onEventClick" effect="dark" class="tag">点击事件</el-tag>
+                        </transition>
+                        <transition name="el-zoom-in-center">
+                          <el-tag v-if="!attributeKeys.includes('__text__')" size="small" type="success"
+                            @click="onTextClick" effect="dark" class="tag">文本内容</el-tag>
+                        </transition>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div name="2" v-show="editMode">
+                  <el-input type="textarea" :autosize="{ minRows: 4 }" placeholder="请输入属性, 以key: value的形式(冒号后要有空格)"
+                    v-model="textAttributes">
+                  </el-input>
+                </div>
+              </div>
+
+              <div style="margin-top: 10px;text-align:center;">
+                <el-tooltip class="item" effect="dark" content="新增属性 ctrl+a" placement="bottom">
+                  <el-button type="primary" class="center" @click="createNew" circle>
+                    <el-icon>
+                      <circle-plus />
+                    </el-icon>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip class="item" effect="dark" content="保存属性 ctrl+s" placement="bottom">
+                  <el-button type="success" class="center" @click="save" circle>
+                    <el-icon>
+                      <l-refresh />
+                    </el-icon>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip v-if="enableRemoveButton" class="item" effect="dark" content="移除该组件 ctrl+d"
+                  placement="bottom">
+                  <el-button type="danger" class="center" @click="remove" circle>
+                    <el-icon>
+                      <l-delete />
+                    </el-icon>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip v-if="enableBroButton" class="item" effect="dark" content="复制一个兄弟组件 ctrl+c"
+                  placement="bottom">
+                  <el-button type="primary" class="center" @click="copyBro" circle>
+                    <el-icon>
+                      <document-copy />
+                    </el-icon>
+                  </el-button>
+                </el-tooltip>
+                <div style="text-algin: center;">
+                  <span class="shortcut-tip">支持快捷键操作</span>
+                </div>
+              </div>
+              <el-divider />
+            </el-collapse-item>
+          </el-collapse>
+
+
         </el-tab-pane>
         <el-tab-pane label="表单" name="second">表单</el-tab-pane>
 
-        <el-tooltip class="item" effect="dark" content="保存" placement="bottom">
-          <el-button type="success" class="center" @click="saveFox" circle>
-            <el-icon>
-              <l-refresh />
-            </el-icon>
-          </el-button>
-        </el-tooltip>
+
       </el-form>
-      <table style="width: 100%">
-        <tr>
-          <th>属性</th>
-          <th>选中</th>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
     </el-tabs>
   </el-card>
 </template>
@@ -263,9 +264,10 @@ export default {
       localAttributes: [],
       enable: true,
       autoplay: false,
-      editMode: false,
+      editMode: true,
       textAttributes: '',
       localAttributesFox: {},
+      collapseShow: ['1', 'action', 'pro'],
       formFox: {
         selected: [],
         label: '',
@@ -280,7 +282,8 @@ export default {
         'label-width': "auto",
         labelDisplay: "1"
       },
-      checkboxFox: []
+      checkboxFox: [],
+      formComponent: {}
     };
   },
   mounted() {
@@ -558,25 +561,16 @@ export default {
           package: 'el'
         });
 
-        console.info('fc.getComponentFormat()', fc.getComponentFormat())
-        const attr = fc.getComponentFormat()
-        if (attr != null) {
-          for (const key in attr.popular) {
-            if (this.localAttributesFox.hasOwnProperty(key)) {
-              this.formFox[key] = this.localAttributesFox[key]
-            } else {
-              this.formFox[key] = ''
-            }
-          }
-          for (const key in attr.optional) {
-            if (this.localAttributesFox.hasOwnProperty(key)) {
-              this.formFox[key] = this.localAttributesFox[key]
-            } else {
-              this.formFox[key] = ''
-            }
-          }
-        }
+        this.formFox = fc.process(this.formFox, this.localAttributesFox)
+        const formComponent2 = fc.getFormComponent()
+        this.formComponent = formComponent2
+        console.info('this.formFox', this.formFox)
+        console.info('this.getFormComponent', formComponent2)
+        console.info('this.getFormComponent', formComponent2?.popular)
+        console.info('this.getFormComponent', formComponent2?.popular?.hasOwnProperty('label'))
+
       }
+
 
     }
   },
@@ -674,6 +668,7 @@ export default {
         this.localAttributesFox = this.attributeListFox;
         console.log("sssss222", this.localAttributesFox)
         const foxType = 'fct';
+        this.formComponent = {}
         if (this.localAttributesFox.hasOwnProperty(foxType)) {
           this.foxProcess()
         }

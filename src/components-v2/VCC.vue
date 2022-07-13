@@ -7,15 +7,34 @@
 
       <div class="main-container">
         <!--顶部工具栏-->
-        <tools-bar @onPreviewModeChange="onPreviewModeChange" @onEditModeChange="onEditModeChange" @redo="redo"
-          @undo="undo" @structureVisible="structureVisible = true"></tools-bar>
+        <div class="foxBar">
+          <div class="copyFox">
+            <el-popconfirm confirmButtonText="确认" cancelButtonText="点错了" iconColor="red" title="点我将清空所有编辑的内容, 确认吗?"
+              @confirm="clear">
+              <template #reference>
+                <el-button link>
+                  <el-icon>
+                    <l-delete />
+                  </el-icon>
+                  清空
+                </el-button>
+              </template>
+            </el-popconfirm>
+            <el-button @click="vueDialogVisible = true" link>Vue</el-button>
+            <el-button @click="jsDialogVisible = true" link>JS</el-button>
+            <el-button @click="codeDialogVisible = true; showJson()" link>生成代码</el-button>
+          </div>
+          <tools-bar @onPreviewModeChange="onPreviewModeChange" @onEditModeChange="onEditModeChange" @redo="redo"
+            @undo="undo" @structureVisible="structureVisible = true"></tools-bar>
+
+        </div>
 
         <div class="preview-container">
           <div id="render-control-panel">
             <!--这里不能放任何东西，执行时会被清空-->
           </div>
         </div>
-        
+
       </div>
       <div class="right-container">
         <attribute-input :enableRemoveButton="true" class="attribute" @save="onSaveAttr" @remove="onRemove"
@@ -23,31 +42,6 @@
         </attribute-input>
       </div>
     </div>
-
-    <div class="copy">
-      <div>
-        <el-alert title="遇到问题？" type="info">
-          <el-link :underline="false" @click="help" style="font-size: 12px; margin-top: 5px;">点击我查看帮助文档</el-link>
-        </el-alert>
-      </div>
-
-      <el-tooltip effect="dark" content="二次编辑" placement="top-start">
-        <div class="round-icon icon-vue" alt="" @click="vueDialogVisible = true">Vue</div>
-      </el-tooltip>
-      <el-tooltip effect="dark" content="编辑JS逻辑" placement="top-start">
-        <div class="round-icon icon-js" alt="" @click="jsDialogVisible = true">JS</div>
-      </el-tooltip>
-      <el-tooltip effect="dark" content="查看实时代码" placement="top-start">
-        <img class="round-icon" :src="iconCode" alt="" @click="codeDialogVisible = true;showJson()">
-      </el-tooltip>
-      <el-popconfirm confirmButtonText="确认" cancelButtonText="点错了" iconColor="red"
-        title="点我将清空所有编辑的内容, 确认吗?" @confirm="clear">
-        <template #reference>
-          <img class="round-icon" :src="iconClear" alt="">
-        </template>
-      </el-popconfirm>
-    </div>
-
     <div>
       <lc-code :rawCode="code" v-model:codeDialogVisible="codeDialogVisible">
       </lc-code>
@@ -353,7 +347,7 @@ export default {
   // right: calc(-300px - 20px);
   // top: 10px;
   background: white;
-  max-height: calc(80% - 20px);
+  max-height: calc(99% - 20px);
   transition: right 0.5s;
   overflow: scroll;
   // z-index: 2;
@@ -378,12 +372,21 @@ export default {
   background-color: #f0f0f0;
 }
 
+.foxBar {}
+
 .copy {
   position: fixed;
   right: 20px;
   bottom: 20px;
   display: flex;
   line-height: 0;
+}
+
+.copyFox {
+  float: right;
+  margin-right: 5px;
+  display: block;
+  line-height: 38px;
 }
 
 .round-icon {
@@ -413,6 +416,7 @@ export default {
   position: fixed;
   right: 0;
   top: 0;
+
   .x {
     width: 20px;
     height: 2px;
@@ -424,6 +428,7 @@ export default {
     right: 0;
     pointer-events: none;
   }
+
   .y {
     width: 2px;
     height: 20px;
@@ -452,8 +457,9 @@ export default {
   border-radius: 10px;
   margin: 20px;
 }
+
 .right-container {
-  width:350px;
+  width: 350px;
   margin: 0px 0px 0 0;
   display: block;
   max-height: 100vh;
@@ -473,8 +479,7 @@ export default {
     border-radius: 5px;
   }
 
-  [lc_id] {
-  }
+  [lc_id] {}
 
   &::after {
     content: "编辑区域";
@@ -551,6 +556,7 @@ export default {
 #render-control-panel .el-form-item:hover {
   outline: rgb(252, 162, 162) 2px solid;
 }
+
 .form-item-unit::before {
   content: attr(fox-component-name) !important;
   background: #4dba87;

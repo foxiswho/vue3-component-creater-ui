@@ -7,6 +7,10 @@ import {
   Delete,
   Refresh,
   Minus,
+  ArrowLeftBold,
+  ArrowRightBold,
+  Grid,
+  View,
 } from "@element-plus/icons-vue";
 import "element-plus/dist/index.css";
 
@@ -19,7 +23,7 @@ import loadCompontents from "@/libs/UIComponentInit.js";
  * @param {*} loadFinished 
  * @returns 
  */
-function loadTemplate(renderComponent, loadFinished = () => {}) {
+function loadTemplate(renderComponent, loadFinished = () => { }) {
   const app = createApp(renderComponent);
   app.use(ElementPlus);
   loadCompontents().then((modules) => {
@@ -62,6 +66,10 @@ app.component("l-refresh", Refresh);
 app.component("l-delete", Delete);
 app.component("document-copy", DocumentCopy);
 app.component("l-minus", Minus);
+app.component("ArrowLeftBold", ArrowLeftBold);
+app.component("ArrowRightBold", ArrowRightBold);
+app.component("elGrid", Grid);
+app.component("elView", View);
 
 app.mount("#app");
 

@@ -96,6 +96,50 @@ export default {
             'placeholder',
             'disabled',
             'name',
-        ]
+        ],
+        event: {
+            blur: {
+                name: '失去焦点时触发'
+            },
+            focus: {
+                name: '获得焦点时触发'
+            },
+            change: {
+                name: '仅当 modelValue 改变时，当输入框失去焦点或用户按Enter时触发'
+            },
+            input: {
+                name: 'Input 值改变时触发'
+            },
+            clear: {
+                name: '在点击由 clearable 属性生成的清空按钮时触发'
+            },
+        }
     },
+    'form-item': {
+        /**
+        * 属性
+        */
+        attribute: {
+            'label': {
+                name: '标签名'
+            },
+            'label-width': {
+                name: '标签宽度'
+            },
+            'required': {
+                name: '是否必填'
+            },
+            'size': {
+                name: '表单组件的默认尺寸'
+            },
+        },
+        /**
+         * 常用
+         */
+        popular: [
+            'label',
+            'label-width',
+            'required',
+        ]
+    }
 }

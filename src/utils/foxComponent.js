@@ -3,10 +3,27 @@ export class FoxComponent {
     data = {}
     component = ''
     /**
+     * 表单组件
+     */
+    formComponent = {
+        //常用
+        popular: {},
+        //可选
+        optional: {}
+    }
+    /**
      * 初始化
      * @param {object} { component: 组件; input,source: object,package:包;el;ant } 
      */
     constructor(options = {}) {
+        this.component = ''
+        this.formComponent = {
+            //常用
+            popular: {},
+            //可选
+            optional: {}
+        }
+        this.data = {}
         if (options?.component) {
             this.component = options.component
         }
@@ -18,7 +35,6 @@ export class FoxComponent {
         } else {
             this.package = 'el'
         }
-
     }
     /**
      * 获取组件数据
@@ -68,5 +84,39 @@ export class FoxComponent {
             return list
         }
         return null
+    }
+    /**
+     * 处理
+     * @param {*} formFox 
+     * @param {*} localAttributesFox 
+     * @returns 
+     */
+    process(formFox, localAttributesFox) {
+        const attr = this.getComponentFormat()
+        if (attr != null) {
+            this.formComponent = attr
+            for (const key in attr.popular) {
+                if (localAttributesFox.hasOwnProperty(key)) {
+                    formFox[key] = localAttributesFox[key]
+                } else {
+                    formFox[key] = ''
+                }
+            }
+            for (const key in attr.optional) {
+                if (localAttributesFox.hasOwnProperty(key)) {
+                    formFox[key] = localAttributesFox[key]
+                } else {
+                    formFox[key] = ''
+                }
+            }
+        }
+        return formFox
+    }
+    /**
+     * 表单组件
+     * @returns 
+     */
+    getFormComponent() {
+        return this.formComponent
     }
 }
