@@ -376,8 +376,6 @@ export default {
   background-color: #f0f0f0;
 }
 
-.foxBar {}
-
 .copy {
   position: fixed;
   right: 20px;
@@ -391,6 +389,10 @@ export default {
   margin-right: 5px;
   display: block;
   line-height: 38px;
+}
+
+form.selectFox {
+  // mix-height: calc(99% - 20px);
 }
 
 .round-icon {

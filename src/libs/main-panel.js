@@ -161,7 +161,23 @@ export class MainPanelProvider {
     initComonentsEvent() {
         const renderControlPanel = this.getControlPanelRoot();
         const elements = renderControlPanel.querySelectorAll("[lc_id]");
+        const container = document.querySelector("#render-control-panel > .container")
         elements.forEach(element => {
+            if ('FORM' == element.nodeName) {
+                if (this.designFox == 'fox') {
+                    const height = container.offsetHeight - 110
+                    element.style = 'height:' + height + 'px;'
+                    if (!container.classList.contains("selectFox")) {
+                        container.classList.add('selectFox')
+                    }
+                } else {
+                    if (container.classList.contains("selectFox")) {
+                        container.classList.remove('selectFox')
+                    }
+                    element.style = 'height: auto;'
+                }
+            }
+
             element.addEventListener("click", event => {
                 if (this.designFox === 'fox') {
                     const thisClassList = element.classList;
