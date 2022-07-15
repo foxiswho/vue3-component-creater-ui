@@ -25,7 +25,7 @@
             <el-button @click="codeDialogVisible = true; showJson()" link>生成代码</el-button>
           </div>
           <tools-bar @onPreviewModeChange="onPreviewModeChange" @onEditModeChange="onEditModeChange" @redo="redo"
-            @undo="undo" @structureVisible="structureVisible = true"></tools-bar>
+            @undo="undo" @structureVisible="structureVisible = true" @onDesignFoxChange="onDesignFoxChange"></tools-bar>
 
         </div>
 
@@ -106,7 +106,8 @@ export default {
       editMode: true,
 
       codeRawVueInfo: null,
-      JSCode: ""
+      JSCode: "",
+      designFox: ''
     };
   },
   watch: {
@@ -311,6 +312,9 @@ export default {
     },
     showJson() {
       console.log(JSON.stringify(this.codeRawVueInfo))
+    },
+    onDesignFoxChange(event) {
+      this.mainPanelProvider.setDesignFox(event);
     }
   },
   fillter: {},

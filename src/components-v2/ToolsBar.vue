@@ -20,6 +20,11 @@
           <el-radio-button label="h5" />
         </el-radio-group>
 
+        <el-radio-group v-model="designFox" size="small" @change="onDesignFoxChange">
+          <el-radio-button label="普通" />
+          <el-radio-button label="fox" />
+        </el-radio-group>
+
         <el-link type="primary" @click="$emit('structureVisible')"
           style="margin-right: 8px;margin-top: 8px;margin-left: 10px;" title="查看结构" alt="查看结构">
           <el-icon :size="19">
@@ -48,6 +53,7 @@ export default {
     return {
       previewMode: 'pc',
       editMode: true,
+      designFox: 'fox',
     };
   },
   watch: {},
@@ -70,8 +76,11 @@ export default {
     },
 
     onPreviewModeChange(event) {
-      console.info(event)
       this.$emit('onPreviewModeChange', this.previewMode != 'pc');
+    },
+    //自定义设计模式
+    onDesignFoxChange(event) {
+      this.$emit('onDesignFoxChange', event);
     },
 
     onEditModeChange() {

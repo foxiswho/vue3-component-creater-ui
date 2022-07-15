@@ -29,6 +29,8 @@ export class MainPanelProvider {
         this.redoStack = [];
 
         this.externalJS = {};
+        // 自定义设计模式
+        this.designFox = 'fox'
     }
 
     /**
@@ -161,8 +163,16 @@ export class MainPanelProvider {
         const elements = renderControlPanel.querySelectorAll("[lc_id]");
         elements.forEach(element => {
             element.addEventListener("click", event => {
-                event.stopPropagation();
-                this.markElement(element);
+                if (this.designFox === 'fox') {
+                    const thisClassList = element.classList;
+                    if (thisClassList && thisClassList.contains("fox")) {
+                        event.stopPropagation();
+                        this.markElement(element);
+                    }
+                } else {
+                    event.stopPropagation();
+                    this.markElement(element);
+                }
             })
             // 处理组件标记  添加
             element.addEventListener("mouseenter", (event) => {
@@ -526,6 +536,11 @@ export class MainPanelProvider {
             const readyForRender = this.redoStack.pop();
             this._render(readyForRender);
         }
+    }
+
+    setDesignFox(designFox) {
+        console.info('designFox', designFox)
+        this.designFox = designFox
     }
 }
 
