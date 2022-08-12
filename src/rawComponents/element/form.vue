@@ -39,8 +39,9 @@
       <el-form :model="formFox" :rules="rulesFox" ref="formFox" lc-mark label-width="100px" class="demo-border-form fox"
         lc_id="form-fox" f_id="form-fox" fct="form">
         <el-form-item label="标题" prop="name" lc-mark lc_id="form-item1-fox" f_id="form-item1-fox" fct="form-item"
-          class="fox">
-          <el-input v-model="formFox.name" lc_id="form-item1-input-fox" f_id="form-item1-input-fox" fct="input">
+          class="fox demo">
+          <el-input v-model="formFox.name" lc_id="form-item1-input-fox" f_id="form-item1-input-fox" fct="input"
+            class="fox">
           </el-input>
         </el-form-item>
       </el-form>

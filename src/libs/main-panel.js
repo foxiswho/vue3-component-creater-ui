@@ -161,7 +161,7 @@ export class MainPanelProvider {
     initComonentsEvent() {
         const renderControlPanel = this.getControlPanelRoot();
         const elements = renderControlPanel.querySelectorAll("[lc_id]");
-        const container = document.querySelector("#render-control-panel > .container")
+        const container = document.querySelector("#render-control-panel ")
         elements.forEach(element => {
             if ('FORM' == element.nodeName) {
                 if (this.designFox == 'fox') {
